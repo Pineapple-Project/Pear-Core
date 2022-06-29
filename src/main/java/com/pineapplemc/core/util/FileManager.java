@@ -54,4 +54,10 @@ public class FileManager {
 
         return directory;
     }
+
+    public static boolean checkFile(File file) {
+        boolean check;
+        if(file.exists()) { check = true; }else check = false;
+        return check;
+    }
 }
