@@ -16,7 +16,6 @@ public class FileManager {
 
         File file = new File(directory, filename);
         if(!file.exists()) {
-            logger.warning("File '" + filename + "' not found. Creating file.");
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -29,7 +28,6 @@ public class FileManager {
     public static File createDirectory(String path) {
         File dir = new File(path);
         if(!dir.exists()) {
-            logger.warning("Directory '" + path + "' not found. Creating it.");
             dir.mkdir();
         }
         return dir;

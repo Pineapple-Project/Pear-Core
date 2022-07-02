@@ -13,24 +13,30 @@ import java.util.logging.Logger;
 
 public class JsonUtil {
 
-    private static Logger logger = Logger.getLogger(JsonUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(JsonUtil.class.getName());
 
     public static String serialize(Object serializer) {
         final GsonBuilder builder = new GsonBuilder();
         final Gson gson = builder.create();
 
-        String serialized = gson.toJson(serializer);
-        return serialized;
+        return gson.toJson(serializer);
     }
+
+    /*public static File serialize(Object serializer, File file) throws IOException {
+        if(!file.exists()) file.createNewFile();
+
+        final Gson gson = new GsonBuilder().create();
+        Writer writer = Files.newBufferedWriter(file.toPath(), gson.toJson(serializer))
+        String serialized = gson.toJson(serializer);
+    }*/
 
     public static String deserialize(String json) {
         final Gson gson = new GsonBuilder().create();
 
-        String result = gson.fromJson(json, String.class);
-        return result;
+        return gson.fromJson(json, String.class);
     }
 
-    public static Map deserialize(File json) throws IOException {
+    public static Map<?, ?> deserialize(File json) throws IOException {
         boolean exists = FileManager.checkFile(json);
         if(!exists) {
             logger.severe("File doesn't exists. Aborting.");
@@ -39,8 +45,7 @@ public class JsonUtil {
 
         Gson gson = new Gson();
         Reader reader = Files.newBufferedReader(Paths.get(json.toURI()));
-        Map<?, ?> map = gson.fromJson(reader, Map.class);
-        return map;
+        return gson.fromJson(reader, Map.class);
     }
 
     public static <T> T deserialize(Class<T> definedClass, File json) throws IOException {
@@ -52,7 +57,6 @@ public class JsonUtil {
 
         Gson gson = new Gson();
         Reader reader = Files.newBufferedReader(Paths.get(json.toURI()));
-        T object = gson.fromJson(reader, definedClass);
-        return object;
+        return gson.fromJson(reader, definedClass);
     }
 }
